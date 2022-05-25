@@ -7,20 +7,27 @@ metadata:
   labels:
     job-name: {{ .name }}
     chart: "{{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}"
+    release: {{ $.Chart.Version }}
 spec:
   schedule: {{ .schedule }}
+  successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:
       template:
+        metadata:
+          labels:
+            job-name: {{ .name }}
+            release: {{ $.Chart.Version }}
         spec:
           containers:
-          - name: hello
-            image: busybox:1.28
-            imagePullPolicy: IfNotPresent
-            command:
-            - /bin/sh
-            - -c
-            - date; echo Hello from the Kubernetes cluster
-          restartPolicy: OnFailure
+          - name: {{ .name }}
+            image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+            env:
+            {{- range $k, $v := $.Values.environmentVariables }}
+              - name: {{ $k }}
+                value: {{ $v | quote }}
+              {{- end }}
+            imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          restartPolicy: {{ $.Values.restartPolicy }}
 ---
 {{- end}}
