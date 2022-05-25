@@ -1,0 +1,7 @@
+nodeSelector: {}
+
+tolerations: []
+
+resources: {}
+
+environmentVariables: {}

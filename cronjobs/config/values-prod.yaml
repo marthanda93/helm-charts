@@ -1,18 +1,31 @@
-env: dev  
+env: prod
+namespace: default
 restartPolicy: OnFailure
+
 image:
     repository: ysde/docker-grafana-backup-tool
     tag: 1.2.3
-    pullPolicy: IfNotPresent 
-service: 
-    internalPort: 8028
+    pullPolicy: IfNotPresent
+
 crons:
     "0":
-    name: mon-fri-cron
-    schedule: "0 6 * * 1-5"
+        name: mon-fri-cron
+        schedule: "0 6 * * 1-5"
     "1":
-    name: daily-cron
-    schedule: "0 8 * * *" 
+        name: daily-cron
+        schedule: "0 8 * * *"
     "2":
-    name: weekly-cron
-    schedule: "0 20 * * FRI" 
+        name: weekly-cron
+        schedule: "0 20 * * FRI"
+
+environmentVariables:
+    GRAFANA_TOKEN: "token"
+    GRAFANA_URL: http://192.168.0.79:3000
+    GRAFANA_ADMIN_ACCOUNT: admin
+    GRAFANA_ADMIN_PASSWORD: admin
+    VERIFY_SSL: False
+    AWS_S3_BUCKET_NAME: "my-backups-bucket"
+    AWS_S3_BUCKET_KEY: "grafana-backup-folder"
+    AWS_DEFAULT_REGION: "us-east-1"
+    AWS_ACCESS_KEY_ID: "secret"
+    AWS_SECRET_ACCESS_KEY: "secret"
