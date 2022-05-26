@@ -5,24 +5,26 @@ metadata:
   namespace: {{ $.Values.namespace }}
   name: {{ .name }}
   labels:
-    job-name: {{ .name }}
+    app: {{ .name }}
     chart: "{{ $.Chart.Name }}-{{ $.Chart.Version | replace "+" "_" }}"
     release: {{ $.Chart.Version }}
 spec:
-  schedule: {{ .schedule }}
+  schedule: "{{ .schedule }}"
   successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:
       template:
         metadata:
           labels:
-            job-name: {{ .name }}
+            app: {{ .name }}
             release: {{ $.Chart.Version }}
         spec:
           containers:
           - name: {{ .name }}
             image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
             env:
+              - name: "AWS_S3_BUCKET_KEY"
+                value: {{ .name }}
             {{- range $k, $v := $.Values.environmentVariables }}
               - name: {{ $k }}
                 value: {{ $v | quote }}

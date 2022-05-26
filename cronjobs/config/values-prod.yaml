@@ -10,22 +10,21 @@ image:
 crons:
     "0":
         name: mon-fri-cron
-        schedule: "0 6 * * 1-5"
+        schedule: "0 */2 * * 1-5"
     "1":
         name: daily-cron
-        schedule: "0 8 * * *"
+        schedule: "0 18 * * *"
     "2":
         name: weekly-cron
-        schedule: "0 20 * * FRI"
+        schedule: "0 18 * * FRI"
 
 environmentVariables:
-    GRAFANA_TOKEN: "token"
-    GRAFANA_URL: http://192.168.0.79:3000
+    GRAFANA_TOKEN: "eyJrIjoiQlRuZWlTNzVjTnY1Z3dDZU5FMDUwMFdMUzJNOExrOVIiLCJuIjoiYmFja3VwIiwiaWQiOjF9"
+    GRAFANA_URL: http://192.168.56.10:3000
     GRAFANA_ADMIN_ACCOUNT: admin
     GRAFANA_ADMIN_PASSWORD: admin
     VERIFY_SSL: False
-    AWS_S3_BUCKET_NAME: "my-backups-bucket"
-    AWS_S3_BUCKET_KEY: "grafana-backup-folder"
+    AWS_S3_BUCKET_NAME: "grafana-backup-poc"
     AWS_DEFAULT_REGION: "us-east-1"
-    AWS_ACCESS_KEY_ID: "secret"
-    AWS_SECRET_ACCESS_KEY: "secret"
+    AWS_SECRET_ACCESS_KEY: "secret key"
+    AWS_ACCESS_KEY_ID: "access key"
